@@ -91,7 +91,7 @@ for enum,doc in enumerate(wiki):
         
 
 ## train on local data
-epochs = range(1)
+epochs = range(2)
 for epoch in epochs:
     for chunk_num, df in enumerate(pd.read_csv("/opt/data/cleaned_docs.csv", names=["question1","question2","is_duplicate"], chunksize=1000)):
         print("chunk: " + str(chunk_num))
@@ -111,13 +111,15 @@ for epoch in epochs:
 
 
 ## create final dataframe of doc2vec value and total cosine similarity
-for df in pd.read_csv("/opt/data/train.csv", usecols=['question1', 'question2', 'is_duplicate'], chunk_size=1000)
+for df in pd.read_csv("/opt/data/train.csv", usecols=['question1', 'question2', 'is_duplicate'], chunksize=1000):
     new_df = []
-    for enum, (col1, col2, target) in enumerate(zip(df.question1, df.question2, df.is_duplicate)):
-        v1 = list(model.infer_vector(clean_and_lemmatize_doc(v1, False)))
-        v2 = list(model.infer_vector(clean_and_lemmatize_doc(v2, False)))
-        v = list(np.subtract(v1, v2))
-        v = v + [cosine(v1,v2), target]
+    for enum, (q1, q2, target) in enumerate(zip(df.question1, df.question2, df.is_duplicate)):
+        q1 = list(model.infer_vector(clean_and_lemmatize_doc(q1, False)))
+        q2 = list(model.infer_vector(clean_and_lemmatize_doc(q2, False)))
+        v = list(np.subtract(q1, q2))
+        v = v + [cosine(q1,q2), target]
+        v = [str(x) for x in v]
+        v = ",".join(v)
         new_df.append(v)
         if ((enum % 100 == 0) & (enum!=0)) | (enum == len(df)-1):
             print("row number: " + str(enum))
