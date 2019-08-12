@@ -9,7 +9,6 @@ RUN pip3 install scipy
 RUN pip3 install numpy
 RUN pip3 install pandas
 RUN pip3 install gensim
-RUN pip3 install wikipedia
 RUN pip3 install pattern
 RUN pip3 install nltk
 
