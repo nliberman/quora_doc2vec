@@ -5,11 +5,15 @@ ADD /bin/ /opt/bin/
 
 RUN apt-get update -y
 
+RUN apt-get install vim
 RUN pip3 install scipy
 RUN pip3 install numpy
 RUN pip3 install pandas
 RUN pip3 install gensim
 RUN pip3 install pattern
 RUN pip3 install nltk
+RUN pip3 install sklearn
+RUN pip3 install tensorflow
+RUN pip3 install keras
 
 CMD ['sleep', 'infinity']
